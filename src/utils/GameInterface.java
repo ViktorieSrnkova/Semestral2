@@ -49,6 +49,8 @@ public interface GameInterface {
     public List<Players> groupToSort(int i, int y);
 
     public Players findByPlayerName(String playerName);
+    
+    public int chooseGroup(String choice);
 
     public String separate();
 

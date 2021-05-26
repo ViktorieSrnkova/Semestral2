@@ -211,6 +211,46 @@ public class Game implements GameInterface {
     }
 
     @Override
+    public int chooseGroup(String choice) {
+        int bottomLimit=Integer.MAX_VALUE;
+        switch (choice) {
+            case "a":
+            case "group a":
+                bottomLimit = 0;
+                System.out.println("tady je nula");
+                pcPlayedGroups(bottomLimit + 6, bottomLimit + 12);
+                pcPlayedGroups(bottomLimit + 12, bottomLimit + 18);
+                pcPlayedGroups(bottomLimit + 18, bottomLimit + 24);
+                break;
+            case "b":
+            case "group b":
+                bottomLimit = 6;
+                System.out.println("tady je 6");
+                pcPlayedGroups(bottomLimit - 6, bottomLimit );
+                pcPlayedGroups(bottomLimit + 6, bottomLimit + 12);
+                pcPlayedGroups(bottomLimit + 12, bottomLimit + 18);
+                break;
+            case "c":
+            case "group c":
+                bottomLimit = 12;
+               System.out.println("tady je 12");
+                pcPlayedGroups(bottomLimit - 12, bottomLimit - 6);
+                pcPlayedGroups(bottomLimit - 6, bottomLimit );
+                pcPlayedGroups(bottomLimit + 6, bottomLimit + 12);
+                break;
+            case "d":
+            case "group d":
+                bottomLimit = 18;
+                System.out.println("tady je 18");
+                pcPlayedGroups(bottomLimit - 18, bottomLimit - 12);
+                pcPlayedGroups(bottomLimit - 12, bottomLimit - 6);
+                pcPlayedGroups(bottomLimit - 6,bottomLimit);
+                break;
+        }
+
+   return bottomLimit; }
+
+    @Override
     public String separate() {
         LocalDate A = chooseRandomDateFromList();
         LocalDate B = chooseRandomDateFromList();
@@ -390,10 +430,10 @@ public class Game implements GameInterface {
                     index2 = rand.nextInt(list.size());
                 }
                 player1 = players16.get(list.get(index));
-                System.out.format("%10s ",player1.getPlayerName());
+                System.out.format("%10s ", player1.getPlayerName());
                 System.out.print(" : ");
                 player2 = players16.get(list.get(index2));
-                System.out.format("%10s ",player2.getPlayerName());
+                System.out.format("%10s ", player2.getPlayerName());
                 z = 0;
                 x = 0;
                 while (x < 2 && z < 2) {
