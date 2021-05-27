@@ -35,6 +35,9 @@ public class Music {
             JOptionPane.showMessageDialog(null,"Error");
         }
     }
+    public static void main(String[] args) {
+        playMusic("Music"+ File.separator+File.separator +"cheer.wav");
+    }
     
     
 }

@@ -117,4 +117,14 @@ public class Players implements Comparable<Players> {
         }
 
     }
+    
+    public static void main(String[] args) {
+    Players p1 = new Players(17,"Czech Republic","Zerg","Unnamed","NotKnown",3000);
+    Players p2 = new Players(12,"Romania","Terran","Unnamed2","NotKnown2",2758);
+    p1.setNumOfWonMaps(5);
+    p2.setNumOfWonMaps(12);
+    System.out.println(p1.compareTo(p2));
+        System.out.println(p1.toString());
+        System.out.println(p2.toString());
+    }
 }

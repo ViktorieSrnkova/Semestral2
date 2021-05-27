@@ -27,4 +27,9 @@ public class Maps {
    public String toString() {
         return String.format("%16s",maps);
     }
+   
+    public static void main(String[] args) {
+        Maps newMap = new Maps("Za pokladem");
+        System.out.println(newMap.toString());
+    }
 }
