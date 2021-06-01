@@ -13,7 +13,7 @@ import java.util.Comparator;
  *
  * @author VikyVixxxen
  */
-public class Players implements Comparable<Players> {
+public class Player implements Comparable<Player> {
 
     private String playerName;
     private String race;
@@ -27,12 +27,12 @@ public class Players implements Comparable<Players> {
     private int numOfWonMaps;
     private int numOfWins;
 
-    static final Comparator<Players> COMP_NAME = (Players r1, Players r2) -> r1.playerName.compareTo(r2.playerName);
-    static final Comparator<Players> COMP_WINS = (Players r1, Players r2) -> r2.numOfWins - r1.numOfWins;
-    static final Comparator<Players> COMP_MAPSWON = (Players r1, Players r2) -> r2.numOfWonMaps - r1.numOfWonMaps;
-    static final Comparator<Players> COMP_DATEANDTIME = Comparator.comparing(Players::getDate).thenComparing(Players::getTime);
+    static final Comparator<Player> COMP_NAME = (Player r1, Player r2) -> r1.playerName.compareTo(r2.playerName);
+    static final Comparator<Player> COMP_WINS = (Player r1, Player r2) -> r2.numOfWins - r1.numOfWins;
+    static final Comparator<Player> COMP_MAPSWON = (Player r1, Player r2) -> r2.numOfWonMaps - r1.numOfWonMaps;
+    static final Comparator<Player> COMP_DATEANDTIME = Comparator.comparing(Player::getDate).thenComparing(Player::getTime);
 
-    public Players(int number, String nationality, String race, String playerName, String team, int points) {
+    public Player(int number, String nationality, String race, String playerName, String team, int points) {
         this.playerName = playerName;
         this.race = race;
         this.team = team;
@@ -107,7 +107,7 @@ public class Players implements Comparable<Players> {
     }
 
     @Override
-    public int compareTo(Players t) {
+    public int compareTo(Player t) {
         if (t.getNumOfWonMaps() == getNumOfWonMaps()) {
             return 0;
         } else if (t.getNumOfWonMaps() > getNumOfWonMaps()) {
@@ -119,8 +119,8 @@ public class Players implements Comparable<Players> {
     }
     
     public static void main(String[] args) {
-    Players p1 = new Players(17,"Czech Republic","Zerg","Unnamed","NotKnown",3000);
-    Players p2 = new Players(12,"Romania","Terran","Unnamed2","NotKnown2",2758);
+    Player p1 = new Player(17,"Czech Republic","Zerg","Unnamed","NotKnown",3000);
+    Player p2 = new Player(12,"Romania","Terran","Unnamed2","NotKnown2",2758);
     p1.setNumOfWonMaps(5);
     p2.setNumOfWonMaps(12);
     System.out.println(p1.compareTo(p2));

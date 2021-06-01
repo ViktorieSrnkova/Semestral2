@@ -23,10 +23,12 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
-import static app.Players.COMP_DATEANDTIME;
-import static app.Players.COMP_MAPSWON;
-import static app.Players.COMP_NAME;
-import static app.Players.COMP_WINS;
+import static app.Player.COMP_DATEANDTIME;
+import static app.Player.COMP_MAPSWON;
+import static app.Player.COMP_NAME;
+import static app.Player.COMP_WINS;
+import java.io.DataOutputStream;
+import java.io.FileOutputStream;
 
 /**
  *
@@ -36,8 +38,8 @@ public class Game implements GameInterface {
 
     static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("M/d/yyyy");
     static DateTimeFormatter ttf = DateTimeFormatter.ofPattern("HH:mm");
-    private List<Players> players;
-    private List<Players> players16;
+    private List<Player> players;
+    private List<Player> players16;
     private List<Maps> maps;
     private List<DateTime> dateTime;
 //   zkontroluj co tam potrebujes dodat z tech pozadavku ,javadoc
@@ -59,7 +61,7 @@ public class Game implements GameInterface {
             String race, playerName, team, nationality;
             int number;
             int points;
-            Players p;
+            Player p;
             br.readLine();
             br.readLine();
             while ((line = br.readLine()) != null) {
@@ -70,7 +72,7 @@ public class Game implements GameInterface {
                 nationality = parts[1];
                 number = Integer.parseInt(parts[0]);
                 points = Integer.parseInt(parts[5]);
-                p = new Players(number, nationality, race, playerName, team, points);
+                p = new Player(number, nationality, race, playerName, team, points);
                 players.add(p);
             }
         }
@@ -113,21 +115,21 @@ public class Game implements GameInterface {
 
     @Override
     public void setMassMatchupWon() {
-        for (Players p : players) {
+        for (Player p : players) {
             p.setNumOfWins(Integer.MAX_VALUE);
         }
     }
 
     @Override
     public void setMassMapWon() {
-        for (Players p : players) {
+        for (Player p : players) {
             p.setNumOfWonMaps(Integer.MAX_VALUE);
         }
     }
 
     @Override
     public void setMassDefaultTime() {
-        for (Players p : players) {
+        for (Player p : players) {
             p.setTime(dateTime.get(0).getTime());
         }
     }
@@ -154,7 +156,7 @@ public class Game implements GameInterface {
 
     @Override
     public boolean isValidName(String jmeno) {
-        for (Players p : players) {
+        for (Player p : players) {
             if (p.getPlayerName().equals(jmeno)) {
                 return true;
             }
@@ -189,20 +191,20 @@ public class Game implements GameInterface {
     @Override
     public String selectGroup(int i, int y) {
         StringBuilder sb = new StringBuilder();
-        for (Players p : players.subList(i, y)) {
+        for (Player p : players.subList(i, y)) {
             sb.append(p).append("\n");
         }
         return sb.toString();
     }
 
     @Override
-    public List<Players> groupToSort(int i, int y) {
+    public List<Player> groupToSort(int i, int y) {
         return players.subList(i, y);
     }
 
     @Override
-    public Players findByPlayerName(String playerName) {
-        for (Players p : players) {
+    public Player findByPlayerName(String playerName) {
+        for (Player p : players) {
             if (p.getPlayerName().equals(playerName)) {
                 return p;
             }
@@ -260,7 +262,7 @@ public class Game implements GameInterface {
         int rn = ThreadLocalRandom.current().nextInt(30, 90 + 1);
         StringBuilder sb = new StringBuilder();
         sb.append("Group A  ").append(A).append("\n");
-        for (Players p : players.subList(0, 6)) {
+        for (Player p : players.subList(0, 6)) {
             p.setDate(A);
             p.setTime(p.getTime().plusMinutes((int) n));
             n = n + rn;
@@ -268,7 +270,7 @@ public class Game implements GameInterface {
         }
         sb.append("Group B  ").append(B).append("\n");
         n = 0;
-        for (Players p : players.subList(6, 12)) {
+        for (Player p : players.subList(6, 12)) {
             p.setDate(B);
             p.setTime(p.getTime().plusMinutes((int) n));
             n = n + rn;
@@ -276,7 +278,7 @@ public class Game implements GameInterface {
         }
         sb.append("Group C  ").append(C).append("\n");
         n = 0;
-        for (Players p : players.subList(12, 18)) {
+        for (Player p : players.subList(12, 18)) {
             p.setDate(C);
             p.setTime(p.getTime().plusMinutes((int) n));
             n = n + rn;
@@ -284,7 +286,7 @@ public class Game implements GameInterface {
         }
         sb.append("Group D  ").append(D).append("\n");
         n = 0;
-        for (Players p : players.subList(18, 24)) {
+        for (Player p : players.subList(18, 24)) {
             p.setDate(D);
             p.setTime(p.getTime().plusMinutes((int) n));
             n = n + rn;
@@ -301,7 +303,7 @@ public class Game implements GameInterface {
         int a;
         int b;
         int c;
-        for (Players p : players.subList(i, y)) {
+        for (Player p : players.subList(i, y)) {
             if (p.getNumOfWonMaps() == 1) {
                 counter1++;
             } else if (p.getNumOfWonMaps() == 0) {
@@ -309,7 +311,6 @@ public class Game implements GameInterface {
             }
         }
         if (counter1 == 1) {
-            players.subList(i, y).get(0).setNumOfWonMaps(players.subList(i, y).get(0).getNumOfWonMaps() + 1);
             players.subList(i, y).get(0).setNumOfWins(1);
         } else if (counter1 == 2) {
             a = pcThrowsDice();
@@ -409,8 +410,8 @@ public class Game implements GameInterface {
     @Override
     public String pcPlayedRounds() throws IOException {
 
-        Players player1;
-        Players player2;
+        Player player1;
+        Player player2;
         int a, b, x, z;
         double repeating = 8;
         int range = 16;
@@ -481,24 +482,24 @@ public class Game implements GameInterface {
     @Override
     public String listOfAdvancingFromGroup(int i, int y) {
         StringBuilder sb = new StringBuilder();
-        for (Players p : players.subList(i, y)) {
+        for (Player p : players.subList(i, y)) {
             sb.append(p).append("\n");
         }
         return sb.toString();
     }
 
     @Override
-    public List<Players> createListOfAllAdvancing() {
-        for (Players p : players.subList(0, 4)) {
+    public List<Player> createListOfAllAdvancing() {
+        for (Player p : players.subList(0, 4)) {
             players16.add(p);
         }
-        for (Players p : players.subList(6, 10)) {
+        for (Player p : players.subList(6, 10)) {
             players16.add(p);
         }
-        for (Players p : players.subList(12, 16)) {
+        for (Player p : players.subList(12, 16)) {
             players16.add(p);
         }
-        for (Players p : players.subList(18, 22)) {
+        for (Player p : players.subList(18, 22)) {
             players16.add(p);
         }
         return players16;
@@ -507,7 +508,7 @@ public class Game implements GameInterface {
     @Override
     public String listOfAllAdvancingPlayers() {
         StringBuilder sb = new StringBuilder();
-        for (Players p : players16) {
+        for (Player p : players16) {
             sb.append(p).append(" ").append(p.getDate()).append(" ").append(p.getTime()).append("\n");
         }
         return sb.toString();
@@ -525,7 +526,7 @@ public class Game implements GameInterface {
     @Override
     public String getPlayers() {
         StringBuilder sb = new StringBuilder();
-        for (Players p : players) {
+        for (Player p : players) {
             sb.append(p).append("\n");
         }
         return sb.toString();
@@ -606,7 +607,20 @@ public class Game implements GameInterface {
             pw.println(getPlayers());
         }
     }
-   
+   public void saveResultsInBin(File filename) throws IOException{
+        try(PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(filename)))){
+            for (Player p:players) {
+                pw.println(players.toString());
+            }
+        }
+        try(DataOutputStream dos = new DataOutputStream(new FileOutputStream(filename))){
+          for(Player p : players){
+              dos.writeInt(p.getNumOfWins());
+              dos.writeUTF(p.getPlayerName()); 
+              dos.writeUTF(p.getTeam());
+          }  
+        }
+    }
     
 
 }

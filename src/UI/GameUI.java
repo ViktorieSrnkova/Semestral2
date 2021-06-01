@@ -36,7 +36,8 @@ public class GameUI {
         String opponent1;
         String opponent2;
         String input;
-        int inputToEnd;
+        String inputToEnd;
+        
         int bottomLimit;
         int poolOfPlayers;
         int n;
@@ -45,7 +46,6 @@ public class GameUI {
         int diced;
         Pattern p;
         Matcher match;
-
         do {
             Game comp = new Game();
             try {
@@ -172,6 +172,7 @@ public class GameUI {
                         System.in.read();
                         System.out.println(comp.displayTable());
                         comp.saveWinningTable(new File(path + File.separator + "Winning Table"));
+                        comp.saveResultsInBin(new File(path + File.separator + "Winners in BIN"));
                         break;
                     } catch (FileNotFoundException e) {
                         System.out.println("This file doesnt exist");
@@ -182,9 +183,13 @@ public class GameUI {
             } catch (IOException e) {
                 System.out.println("There was a problem " + e.getMessage());
             }
+            
             System.out.println("To end the program enter 0 or lesser number");
-            inputToEnd = sc.nextInt();
-        } while (inputToEnd > 0);
+            inputToEnd = sc.next();
+            while (isANumber(inputToEnd)==false) {
+                inputToEnd = sc.next();
+            }
+        } while (Integer.parseInt(inputToEnd) > 0);
     }
 
     private static String determineOpponent2(String opponent1, String player1, String player2) {
@@ -202,6 +207,16 @@ public class GameUI {
     private static boolean isAnExistingGroup(String chosenGroup) {
         if (!chosenGroup.equals("a") && !chosenGroup.equals("b") && !chosenGroup.equals("c") && !chosenGroup.equals("d")) {
             System.out.println("No such group.");
+            return false;
+        }
+        return true;
+    }
+
+    private static boolean isANumber(String inputToEnd) {
+        try {
+            int intValue = Integer.parseInt(inputToEnd);
+        } catch (NumberFormatException e) {
+            System.out.println("Input is not a valid integer");
             return false;
         }
         return true;

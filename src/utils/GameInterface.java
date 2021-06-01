@@ -10,7 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
-import app.Players;
+import app.Player;
 
 /**
  *
@@ -46,9 +46,9 @@ public interface GameInterface {
 
     public String selectGroup(int i, int y);
 
-    public List<Players> groupToSort(int i, int y);
+    public List<Player> groupToSort(int i, int y);
 
-    public Players findByPlayerName(String playerName);
+    public Player findByPlayerName(String playerName);
     
     public int chooseGroup(String choice);
 
@@ -66,7 +66,7 @@ public interface GameInterface {
 
     public String listOfAdvancingFromGroup(int i, int y);
 
-    public List<Players> createListOfAllAdvancing();
+    public List<Player> createListOfAllAdvancing();
 
     public String listOfAllAdvancingPlayers();
 
