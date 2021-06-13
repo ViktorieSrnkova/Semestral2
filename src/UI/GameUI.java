@@ -78,10 +78,10 @@ public class GameUI {
                             player2 = sc.next();
                             while (comp.isValidName(player1) == false || comp.isValidName(player2) == false) {
                                 if (comp.isValidName(player1) == false) {
-                                    System.out.println("Name " + player1 + " is incorrect.");
+                                    System.out.println("Name " + player1 + " is incorrect. Try again");
                                     player1 = sc.next();
                                 } else {
-                                    System.out.println("Name " + player2 + " is incorrect.");
+                                    System.out.println("Name " + player2 + " is incorrect. Try again");
                                     player2 = sc.next();
                                 }
                             }
@@ -100,7 +100,7 @@ public class GameUI {
                             do {
                                 opponent1 = sc.next();
                                 while (comp.isValidName(opponent1) == false) {
-                                    System.out.println("Name " + opponent1 + " is incorrect.");
+                                    System.out.println("Name " + opponent1 + " is incorrect. Try again");
                                     opponent1 = sc.next();
                                 }
                                 opponent2 = determineOpponent2(opponent1, player1, player2);
@@ -116,7 +116,7 @@ public class GameUI {
                                 input = sc.next();
                                 match = p.matcher(input);
                                 while (!match.find()) {
-                                    System.out.println("Not in range!");
+                                    System.out.println("Not in range! Try again");
                                     input = sc.next();
                                     match = p.matcher(input);
                                 }
@@ -225,7 +225,7 @@ public class GameUI {
      */
     private static boolean isAnExistingGroup(String chosenGroup) {
         if (!chosenGroup.equals("a") && !chosenGroup.equals("b") && !chosenGroup.equals("c") && !chosenGroup.equals("d")) {
-            System.out.println("No such group.");
+            System.out.println("No such group. Try again");
             return false;
         }
         return true;
