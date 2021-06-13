@@ -87,7 +87,7 @@ Program načte data z textových souborů hráči(informace o hráčích odděle
 ### c) Class Diagram ###
 ![UML](https://raw.githubusercontent.com/ViktorieSrnkova/Semestral2/master/UML_diagram.png)
 
-### Testování ###
+### 3.Testování ###
 |Číslo testu |Typ testu         |Oblast                        |Vstupní hodnota             | Očekávaný výsledek                                   | skutečný výsledek                                    | prošel(ano/ne)|
 |------------|------------------|------------------------------|----------------------------|------------------------------------------------------|------------------------------------------------------|---------------|
 |1           |běžná hodnota     |výběr skupiny                 |  D                         | výpis skupiny D                                      | výpis skupiny D                                      |    Ano        |
@@ -106,7 +106,7 @@ Program načte data z textových souborů hráči(informace o hráčích odděle
 ![UML](https://github.com/ViktorieSrnkova/Semestral2/blob/master/Sn%C3%ADmek%20obrazovky%202021-06-13%20165246.png)
 ![UML](https://github.com/ViktorieSrnkova/Semestral2/blob/master/Sn%C3%ADmek%20obrazovky%202021-06-13%20165241.png)
 
-### Popis funkce externí kihovny ###
+### 4. Popis funkce externí kihovny ###
 Použila jsem knihovnu :	
 
 sun.audio
