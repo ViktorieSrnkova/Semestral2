@@ -127,7 +127,7 @@ public class GameUI {
                                     n = n + 1;
                                     comp.findByPlayerName(opponent1).setNumOfWonMaps(n);
                                     comp.findByPlayerName(opponent2).setNumOfWonMaps(m);
-                                    System.out.println("Computer threw" + pcDiced);
+                                    System.out.println("Computer threw " + pcDiced);
                                     System.out.println("Score " + opponent1 + "  " + comp.findByPlayerName(opponent1).getNumOfWonMaps() + " : " + comp.findByPlayerName(opponent2).getNumOfWonMaps() + "  " + opponent2);
                                 } else if (diced < pcDiced) {
                                     m = m + 1;
