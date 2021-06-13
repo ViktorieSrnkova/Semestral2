@@ -113,13 +113,14 @@ public class GameUI {
                                 System.out.println("Map: " + comp.chooseRandomMap());
                                 System.out.println("Enter a number between 1 to 6");
                                 p = Pattern.compile("(^[1-6]{1}$)");
-                                do {
+                                input = sc.next();
+                                match = p.matcher(input);
+                                while (!match.find()) {
+                                    System.out.println("Not in range!");
                                     input = sc.next();
                                     match = p.matcher(input);
-                                    if (!match.find()) {
-                                        System.out.println("Not in range!");
-                                    }
-                                } while (!match.find());
+                                }
+
                                 diced = Integer.parseInt(input);
                                 pcDiced = comp.pcThrowsDice();
                                 if (diced > pcDiced) {
