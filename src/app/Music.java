@@ -19,8 +19,8 @@ import sun.audio.AudioStream;
  */
 public class Music {
 
-    /**
-     * @param filepath
+    /**Plays audio
+     * @param filepath - path tothe audiofile
      */
     
     public static void playMusic(String filepath){
@@ -35,6 +35,11 @@ public class Music {
             JOptionPane.showMessageDialog(null,"Error");
         }
     }
+
+    /**test main
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         playMusic("Music"+ File.separator+File.separator +"cheer.wav");
     }

@@ -12,22 +12,35 @@ package app;
 public class Maps {
     private String maps;
 
+    /**constructor
+     *
+     * @param maps
+     */
     public Maps(String maps) {
         this.maps = maps;
     }    
     
-     public String getMaps() {
+    /**returns map
+     *
+     * @return String - map
+     */
+    public String getMaps() {
         return maps;
     }
 
-    public void setMaps(String maps) {
-        this.maps = maps;
-    }
+    /**
+     *
+     * @return
+     */
     @Override
    public String toString() {
         return String.format("%16s",maps);
     }
    
+    /**testing main
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         Maps newMap = new Maps("Za pokladem");
         System.out.println(newMap.toString());

@@ -42,10 +42,10 @@ public class Game implements GameInterface {
     private List<Player> players16;
     private List<Maps> maps;
     private List<DateTime> dateTime;
-//   zkontroluj co tam potrebujes dodat z tech pozadavku ,javadoc
 
-//group stage completed
-    //all matches completed!
+    /**
+     *
+     */
     public Game() {
         players = new ArrayList<>();
         players16 = new ArrayList<>();
@@ -53,6 +53,9 @@ public class Game implements GameInterface {
         maps = new ArrayList<>();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void loadPlayerInfo(File filename) throws FileNotFoundException, IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
@@ -78,6 +81,9 @@ public class Game implements GameInterface {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void loadMaps(File filename) throws FileNotFoundException, IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
@@ -95,6 +101,9 @@ public class Game implements GameInterface {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void loadDatesAndTimes(File filename) throws FileNotFoundException, IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
@@ -113,6 +122,9 @@ public class Game implements GameInterface {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setMassMatchupWon() {
         for (Player p : players) {
@@ -120,6 +132,9 @@ public class Game implements GameInterface {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setMassMapWon() {
         for (Player p : players) {
@@ -127,6 +142,9 @@ public class Game implements GameInterface {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setMassDefaultTime() {
         for (Player p : players) {
@@ -134,6 +152,9 @@ public class Game implements GameInterface {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String chooseRandomMap() {
         Random rn = new Random();
@@ -144,6 +165,9 @@ public class Game implements GameInterface {
         return map;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public LocalDate chooseRandomDateFromList() {
         Random rn = new Random();
@@ -154,40 +178,58 @@ public class Game implements GameInterface {
         return date;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public boolean isValidName(String jmeno) {
+    public boolean isValidName(String name) {
         for (Player p : players) {
-            if (p.getPlayerName().equals(jmeno)) {
+            if (p.getPlayerName().equals(name)) {
                 return true;
             }
         }
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getPlayersSortedByName() {
         Collections.sort(players, COMP_NAME);
         return getPlayers();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getGroupsSortedByMapsWon(int i, int y) {
         Collections.sort(players.subList(i, y), COMP_MAPSWON);
         return selectGroup(i, y);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void sortedByWins() {
         Collections.sort(players16, COMP_WINS);
         Collections.sort(players, COMP_WINS);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void sortByDateAndTime() {
         Collections.sort(players16, COMP_DATEANDTIME);
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String selectGroup(int i, int y) {
         StringBuilder sb = new StringBuilder();
@@ -197,11 +239,17 @@ public class Game implements GameInterface {
         return sb.toString();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Player> groupToSort(int i, int y) {
         return players.subList(i, y);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Player findByPlayerName(String playerName) {
         for (Player p : players) {
@@ -212,14 +260,16 @@ public class Game implements GameInterface {
         throw new NoSuchElementException("Player with the name " + playerName + " does not exist");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int chooseGroup(String choice) {
-        int bottomLimit=Integer.MAX_VALUE;
+        int bottomLimit = Integer.MAX_VALUE;
         switch (choice) {
             case "a":
             case "group a":
                 bottomLimit = 0;
-                System.out.println("tady je nula");
                 pcPlayedGroups(bottomLimit + 6, bottomLimit + 12);
                 pcPlayedGroups(bottomLimit + 12, bottomLimit + 18);
                 pcPlayedGroups(bottomLimit + 18, bottomLimit + 24);
@@ -227,31 +277,32 @@ public class Game implements GameInterface {
             case "b":
             case "group b":
                 bottomLimit = 6;
-                System.out.println("tady je 6");
-                pcPlayedGroups(bottomLimit - 6, bottomLimit );
+                pcPlayedGroups(bottomLimit - 6, bottomLimit);
                 pcPlayedGroups(bottomLimit + 6, bottomLimit + 12);
                 pcPlayedGroups(bottomLimit + 12, bottomLimit + 18);
                 break;
             case "c":
             case "group c":
                 bottomLimit = 12;
-               System.out.println("tady je 12");
                 pcPlayedGroups(bottomLimit - 12, bottomLimit - 6);
-                pcPlayedGroups(bottomLimit - 6, bottomLimit );
+                pcPlayedGroups(bottomLimit - 6, bottomLimit);
                 pcPlayedGroups(bottomLimit + 6, bottomLimit + 12);
                 break;
             case "d":
             case "group d":
                 bottomLimit = 18;
-                System.out.println("tady je 18");
                 pcPlayedGroups(bottomLimit - 18, bottomLimit - 12);
                 pcPlayedGroups(bottomLimit - 12, bottomLimit - 6);
-                pcPlayedGroups(bottomLimit - 6,bottomLimit);
+                pcPlayedGroups(bottomLimit - 6, bottomLimit);
                 break;
         }
 
-   return bottomLimit; }
+        return bottomLimit;
+    }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String separate() {
         LocalDate A = chooseRandomDateFromList();
@@ -296,6 +347,9 @@ public class Game implements GameInterface {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void determineFourth(int i, int y) {
         int counter1 = 0;
@@ -350,6 +404,9 @@ public class Game implements GameInterface {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String pcPlayedGroups(int i, int y) {
         int n = 0;
@@ -393,12 +450,18 @@ public class Game implements GameInterface {
         return listOfAdvancingFromGroup(i, y - 2);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int pcThrowsDice() {
         int randomNum = ThreadLocalRandom.current().nextInt(1, 6 + 1);
         return randomNum;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String createMatch(String name1, String name2) {
         StringBuilder sb = new StringBuilder();
@@ -407,9 +470,12 @@ public class Game implements GameInterface {
         return sb.toString();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String pcPlayedRounds() throws IOException {
-
+        StringBuilder sb = new StringBuilder();
         Player player1;
         Player player2;
         int a, b, x, z;
@@ -421,7 +487,7 @@ public class Game implements GameInterface {
                 list.add(j);
             }
             Random rand = new Random();
-            System.out.println("*************Round of " + range + "****************");
+            sb.append("*************Round of ").append(range).append(" ****************").append("\n");
 
             while (list.size() > 0) {
                 int index = rand.nextInt(list.size());
@@ -431,10 +497,9 @@ public class Game implements GameInterface {
                     index2 = rand.nextInt(list.size());
                 }
                 player1 = players16.get(list.get(index));
-                System.out.format("%10s ", player1.getPlayerName());
-                System.out.print(" : ");
+                sb.append(String.format("%10s",player1.getPlayerName())).append("   :   ");
                 player2 = players16.get(list.get(index2));
-                System.out.format("%10s ", player2.getPlayerName());
+                sb.append(String.format("%10s",player2.getPlayerName()));
                 z = 0;
                 x = 0;
                 while (x < 2 && z < 2) {
@@ -454,12 +519,10 @@ public class Game implements GameInterface {
                 }
                 if (x > z) {
                     player1.setNumOfWins(player1.getNumOfWins() + 1);
-                    System.out.format("        Winner --> %10s", player1.getPlayerName());
-                    System.out.println(" ");
+                    sb.append(String.format("    Winner -->  %10s", player1.getPlayerName())).append("\n");
                 } else if (z > x) {
                     player2.setNumOfWins(player2.getNumOfWins() + 1);
-                    System.out.format("        Winner --> %10s", player2.getPlayerName());
-                    System.out.println(" ");
+                    sb.append(String.format("    Winner -->  %10s", player2.getPlayerName())).append("\n");
                 }
                 if (index > index2) {
                     list.remove(index);
@@ -472,13 +535,16 @@ public class Game implements GameInterface {
             repeating = repeating / 2;
             range = range / 2;
             sortedByWins();
-            System.out.println(listOfAllAdvancingPlayers());
-            System.in.read();
+          // sb.append("\n").append(listOfAllAdvancingPlayers());
+           
         }
         sortedByWins();
-        return listOfAllAdvancingPlayers();
+        return sb.toString();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String listOfAdvancingFromGroup(int i, int y) {
         StringBuilder sb = new StringBuilder();
@@ -488,6 +554,9 @@ public class Game implements GameInterface {
         return sb.toString();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Player> createListOfAllAdvancing() {
         for (Player p : players.subList(0, 4)) {
@@ -505,6 +574,9 @@ public class Game implements GameInterface {
         return players16;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String listOfAllAdvancingPlayers() {
         StringBuilder sb = new StringBuilder();
@@ -514,6 +586,9 @@ public class Game implements GameInterface {
         return sb.toString();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getDatesAndTimes() {
         StringBuilder sb = new StringBuilder();
@@ -523,6 +598,9 @@ public class Game implements GameInterface {
         return sb.toString();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getPlayers() {
         StringBuilder sb = new StringBuilder();
@@ -532,6 +610,9 @@ public class Game implements GameInterface {
         return sb.toString();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getMaps() {
         StringBuilder sb = new StringBuilder();
@@ -541,6 +622,9 @@ public class Game implements GameInterface {
         return sb.toString();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String DisplayWinner() {
         StringBuilder sb = new StringBuilder();
@@ -549,6 +633,9 @@ public class Game implements GameInterface {
         return sb.toString();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String displayTable() {
         StringBuilder sb = new StringBuilder();
@@ -580,6 +667,9 @@ public class Game implements GameInterface {
         return sb.toString();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void saveWinningTable(File filename) throws IOException {
         try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(filename)))) {
@@ -587,6 +677,9 @@ public class Game implements GameInterface {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void saveGroupsResults(File filename) throws IOException {
         try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(filename)))) {
@@ -594,33 +687,45 @@ public class Game implements GameInterface {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void saveGroups(File filename, String skupiny) throws IOException {
+    public void saveGroups(File filename, String groups) throws IOException {
         try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(filename)))) {
-            pw.println(skupiny);
+            pw.println(groups);
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void saveFinalScore(File filename) throws IOException {
         try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(filename)))) {
             pw.println(getPlayers());
         }
     }
-   public void saveResultsInBin(File filename) throws IOException{
-        try(PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(filename)))){
-            for (Player p:players) {
+
+    /**
+     * Creates a binary file and saves the results in it.
+     *
+     * @param filename - name of the file
+     * @throws IOException
+     */
+    public void saveResultsInBin(File filename) throws IOException {
+        try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(filename)))) {
+            for (Player p : players) {
                 pw.println(players.toString());
             }
         }
-        try(DataOutputStream dos = new DataOutputStream(new FileOutputStream(filename))){
-          for(Player p : players){
-              dos.writeInt(p.getNumOfWins());
-              dos.writeUTF(p.getPlayerName()); 
-              dos.writeUTF(p.getTeam());
-          }  
+        try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(filename))) {
+            for (Player p : players) {
+                dos.writeInt(p.getNumOfWins());
+                dos.writeUTF(p.getPlayerName());
+                dos.writeUTF(p.getTeam());
+            }
         }
     }
-    
 
 }

@@ -22,11 +22,12 @@ import static app.Music.playMusic;
  */
 public class GameUI {
 
-    /**
-     * @param args the command line arguments
-     */
     static Scanner sc = new Scanner(System.in);
 
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         String path = "Data";
         String chosenGroup;
@@ -37,7 +38,6 @@ public class GameUI {
         String opponent2;
         String input;
         String inputToEnd;
-        
         int bottomLimit;
         int poolOfPlayers;
         int n;
@@ -164,6 +164,8 @@ public class GameUI {
                         System.in.read();
                         System.out.println(comp.pcPlayedRounds());
                         comp.sortedByWins();
+                        System.out.println("To see the final score press Enter");
+                        System.in.read();
                         System.out.println(comp.getPlayers());
                         comp.saveFinalScore(new File(path + File.separator + "Final Results"));
                         System.out.println("And the winner is:  " + comp.DisplayWinner());
@@ -191,19 +193,27 @@ public class GameUI {
             }
         } while (Integer.parseInt(inputToEnd) > 0);
     }
-
+/** Determins oponent based on users choice from 2 players
+ * 
+ * @param opponent1 - user input player
+ * @param player1 - first available player in this match
+ * @param player2 - second available player in this match
+ * @return String- name of player who is opponent
+ */
     private static String determineOpponent2(String opponent1, String player1, String player2) {
         String opponent2;
         if (opponent1.equals(player1)) {
-            opponent1 = player1;
             opponent2 = player2;
         } else {
-            opponent1 = player2;
             opponent2 = player1;
         }
         return opponent2;
     }
-
+/**Checks if input group name is valid
+ * 
+ * @param chosenGroup - users chosen input
+ * @return true - is a group from the available groups, false- is not a group
+ */
     private static boolean isAnExistingGroup(String chosenGroup) {
         if (!chosenGroup.equals("a") && !chosenGroup.equals("b") && !chosenGroup.equals("c") && !chosenGroup.equals("d")) {
             System.out.println("No such group.");
@@ -211,10 +221,15 @@ public class GameUI {
         }
         return true;
     }
-
+/**Checks if input is a number
+ * 
+ * @param inputToEnd - user input
+ * @return true - is a number, false - isn't a number
+ */
     private static boolean isANumber(String inputToEnd) {
         try {
-            int intValue = Integer.parseInt(inputToEnd);
+             Integer.parseInt(inputToEnd);
+             
         } catch (NumberFormatException e) {
             System.out.println("Input is not a valid integer");
             return false;
