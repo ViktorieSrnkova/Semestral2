@@ -723,7 +723,12 @@ public class Game implements GameInterface {
             for (Player p : players) {
                 dos.writeInt(p.getNumOfWins());
                 dos.writeUTF(p.getPlayerName());
+                dos.writeUTF(p.getRace());
+                dos.writeUTF(p.getNationality());
                 dos.writeUTF(p.getTeam());
+                dos.writeInt(p.getPoints());
+                dos.writeInt(p.getNumber());
+                
             }
         }
     }
