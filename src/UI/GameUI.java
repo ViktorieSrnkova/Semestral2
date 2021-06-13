@@ -65,10 +65,9 @@ public class GameUI {
                         System.out.println(groups);
                         comp.saveGroups(new File(path + File.separator + "Group Stage"), groups);
                         System.out.println("Choose one group with which you will play the group stage matches.");
-                        chosenGroup = sc.next().toLowerCase();
-                        while (!isAnExistingGroup(chosenGroup)) {
+                        do {
                             chosenGroup = sc.next().toLowerCase();
-                        }
+                        } while (!isAnExistingGroup(chosenGroup));
                         bottomLimit = comp.chooseGroup(chosenGroup);
                         poolOfPlayers = 6;
                         while (poolOfPlayers > 0) {
@@ -98,27 +97,29 @@ public class GameUI {
                             System.out.println(comp.createMatch(player1, player2));
                             poolOfPlayers = poolOfPlayers - 2;
                             System.out.println("Chose a player for whom you wish to throw dice");
-                            opponent1 = sc.next();
-                            while (comp.isValidName(opponent1) == false) {
-                                System.out.println("Name " + opponent1 + " is incorrect.");
+                            do {
                                 opponent1 = sc.next();
-                            }
-                            opponent2 = determineOpponent2(opponent1, player1, player2);
+                                while (comp.isValidName(opponent1) == false) {
+                                    System.out.println("Name " + opponent1 + " is incorrect.");
+                                    opponent1 = sc.next();
+                                }
+                                opponent2 = determineOpponent2(opponent1, player1, player2);
+                            } while (opponent2 == null);
                             n = 0;
                             m = 0;
-                            System.out.println("Score " + opponent1 + "  " + comp.findByPlayerName(opponent1).getNumOfWonMaps() + " : " + comp.findByPlayerName(opponent2).getNumOfWonMaps() + "  " + opponent2);
+                            System.out.println("Score " + opponent1 + " 0 : 0 " + opponent2);
                             while (m < 2 && n < 2) {
                                 System.out.println("***********************");
                                 System.out.println("Map: " + comp.chooseRandomMap());
                                 System.out.println("Enter a number between 1 to 6");
                                 p = Pattern.compile("(^[1-6]{1}$)");
-                                input = sc.next();
-                                match = p.matcher(input);
-                                while (!match.find()) {
-                                    System.out.println("Not in range!");
+                                do {
                                     input = sc.next();
                                     match = p.matcher(input);
-                                }
+                                    if (!match.find()) {
+                                        System.out.println("Not in range!");
+                                    }
+                                } while (!match.find());
                                 diced = Integer.parseInt(input);
                                 pcDiced = comp.pcThrowsDice();
                                 if (diced > pcDiced) {
@@ -203,11 +204,13 @@ public class GameUI {
      * @return String- name of player who is opponent
      */
     private static String determineOpponent2(String opponent1, String player1, String player2) {
-        String opponent2;
+        String opponent2 = null;
         if (opponent1.equals(player1)) {
             opponent2 = player2;
-        } else {
+        } else if (opponent1.equals(player2)) {
             opponent2 = player1;
+        } else {
+            System.out.println("Cannot choose from a different player than these two");
         }
         return opponent2;
     }
