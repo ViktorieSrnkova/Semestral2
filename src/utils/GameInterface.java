@@ -229,7 +229,7 @@ public interface GameInterface {
      * @param filename - name of the file
      * @throws IOException
      */
-    public void saveWinningTable(File filename) throws IOException;
+    public void saveLeaderBoard(File filename) throws IOException;
 
     /**Creates a text file and saves all advancing players with their dates and times to it
      *

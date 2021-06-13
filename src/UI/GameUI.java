@@ -170,10 +170,10 @@ public class GameUI {
                         comp.saveFinalScore(new File(path + File.separator + "Final Results"));
                         System.out.println("And the winner is:  " + comp.DisplayWinner());
                         playMusic("Music\\\\cheer.wav");
-                        System.out.println("To display the winning table press Enter");
+                        System.out.println("To display the leader board press Enter");
                         System.in.read();
                         System.out.println(comp.displayTable());
-                        comp.saveWinningTable(new File(path + File.separator + "Winning Table"));
+                        comp.saveLeaderBoard(new File(path + File.separator + "Leader board"));
                         comp.saveResultsInBin(new File(path + File.separator + "Winners in BIN"));
                         break;
                     } catch (FileNotFoundException e) {
@@ -185,21 +185,23 @@ public class GameUI {
             } catch (IOException e) {
                 System.out.println("There was a problem " + e.getMessage());
             }
-            
+
             System.out.println("To end the program enter 0 or lesser number");
             inputToEnd = sc.next();
-            while (isANumber(inputToEnd)==false) {
+            while (isANumber(inputToEnd) == false) {
                 inputToEnd = sc.next();
             }
         } while (Integer.parseInt(inputToEnd) > 0);
     }
-/** Determins oponent based on users choice from 2 players
- * 
- * @param opponent1 - user input player
- * @param player1 - first available player in this match
- * @param player2 - second available player in this match
- * @return String- name of player who is opponent
- */
+
+    /**
+     * Determins oponent based on users choice from 2 players
+     *
+     * @param opponent1 - user input player
+     * @param player1 - first available player in this match
+     * @param player2 - second available player in this match
+     * @return String- name of player who is opponent
+     */
     private static String determineOpponent2(String opponent1, String player1, String player2) {
         String opponent2;
         if (opponent1.equals(player1)) {
@@ -209,11 +211,14 @@ public class GameUI {
         }
         return opponent2;
     }
-/**Checks if input group name is valid
- * 
- * @param chosenGroup - users chosen input
- * @return true - is a group from the available groups, false- is not a group
- */
+
+    /**
+     * Checks if input group name is valid
+     *
+     * @param chosenGroup - users chosen input
+     * @return true - is a group from the available groups, false- is not a
+     * group
+     */
     private static boolean isAnExistingGroup(String chosenGroup) {
         if (!chosenGroup.equals("a") && !chosenGroup.equals("b") && !chosenGroup.equals("c") && !chosenGroup.equals("d")) {
             System.out.println("No such group.");
@@ -221,15 +226,17 @@ public class GameUI {
         }
         return true;
     }
-/**Checks if input is a number
- * 
- * @param inputToEnd - user input
- * @return true - is a number, false - isn't a number
- */
+
+    /**
+     * Checks if input is a number
+     *
+     * @param inputToEnd - user input
+     * @return true - is a number, false - isn't a number
+     */
     private static boolean isANumber(String inputToEnd) {
         try {
-             Integer.parseInt(inputToEnd);
-             
+            Integer.parseInt(inputToEnd);
+
         } catch (NumberFormatException e) {
             System.out.println("Input is not a valid integer");
             return false;

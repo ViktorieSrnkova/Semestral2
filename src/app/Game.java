@@ -671,7 +671,7 @@ public class Game implements GameInterface {
      * {@inheritDoc}
      */
     @Override
-    public void saveWinningTable(File filename) throws IOException {
+    public void saveLeaderBoard(File filename) throws IOException {
         try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(filename)))) {
             pw.println(displayTable());
         }
