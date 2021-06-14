@@ -85,7 +85,7 @@ Program načte data z textových souborů hráči(informace o hráčích odděle
 3. Jméno hráče
 
 ### c) Class Diagram ###
-![UML](https://raw.githubusercontent.com/ViktorieSrnkova/Semestral2/master/UML_diagram.png)
+![UML](https://raw.githubusercontent.com/ViktorieSrnkova/Semestral2/master/UML.png)
 
 ### 3.Testování ###
 |Číslo testu |Typ testu         |Oblast                        |Vstupní hodnota             | Očekávaný výsledek                                   | skutečný výsledek                                    | prošel(ano/ne)|
