@@ -714,11 +714,6 @@ public class Game implements GameInterface {
      * @throws IOException
      */
     public void saveResultsInBin(File filename) throws IOException {
-        try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(filename)))) {
-            for (Player p : players) {
-                pw.println(players.toString());
-            }
-        }
         try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(filename))) {
             for (Player p : players) {
                 dos.writeInt(p.getNumOfWins());
