@@ -27,6 +27,7 @@ public class GameUI {
 
     /**
      *
+     * 
      * @param args
      */
     static GameInterface comp = new Game();
@@ -76,9 +77,9 @@ public class GameUI {
                         comp.saveResultsInBin(new File(path + File.separator + "Winners in BIN"));
                         break;
                     } catch (FileNotFoundException e) {
-                        System.out.println("This file doesnt exist");
+                        System.out.println("This file doesn´t exist");
                     } catch (NoSuchElementException e) {
-                        System.out.println("Player with this name does'nt exist");
+                        System.out.println("Player with this name doesn´t exist");
                     }
                 }
             } catch (IOException e) {
@@ -123,12 +124,10 @@ public class GameUI {
  */
     private static int chooseOneGroup() {
         String chosenGroup;
-        int bottomLimit;
         do {
             chosenGroup = sc.next().toLowerCase();
         } while (!isAnExistingGroup(chosenGroup));
-        bottomLimit = comp.chooseGroup(chosenGroup);
-        return bottomLimit;
+        return comp.chooseGroup(chosenGroup);
     }
 /**Separates players into groups and prints them, also remembers the groups themselves
  * 
@@ -249,7 +248,7 @@ public class GameUI {
  * @return - true if it is correct, false if missspeled
  */
     private static boolean checkName(String player1) {
-        while (comp.isValidName(player1) == false) {
+        while (!comp.isValidName(player1)) {
             System.out.println("Name " + player1 + " is incorrect. Try again");
             return false;
         }
