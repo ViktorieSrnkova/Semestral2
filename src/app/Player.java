@@ -83,7 +83,7 @@ public class Player implements Comparable<Player> {
     }
 
     /**Returns number of won maps
-     *
+     * default max integer
      * @return int- won maps
      */
     public int getNumOfWonMaps() {

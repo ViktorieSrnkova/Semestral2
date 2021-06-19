@@ -88,13 +88,11 @@ public class Game implements GameInterface {
     public void loadMaps(File filename) throws FileNotFoundException, IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String line;
-            String[] parts;
             String map;
             Maps m;
             br.readLine();
-            while ((line = br.readLine()) != null) {
-                parts = line.split(",");
-                map = parts[0];
+            while ((line = br.readLine()) != null){
+               map =line;
                 m = new Maps(map);
                 maps.add(m);
             }
@@ -713,12 +711,8 @@ public class Game implements GameInterface {
      * @param filename - name of the file
      * @throws IOException
      */
+    @Override
     public void saveResultsInBin(File filename) throws IOException {
-        try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(filename)))) {
-            for (Player p : players) {
-                pw.println(players.toString());
-            }
-        }
         try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(filename))) {
             for (Player p : players) {
                 dos.writeInt(p.getNumOfWins());

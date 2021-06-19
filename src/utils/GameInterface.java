@@ -252,4 +252,6 @@ public interface GameInterface {
      * @throws IOException
      */
     public void saveFinalScore(File filename) throws IOException;
+   
+    public void saveResultsInBin(File filename) throws IOException;
 }

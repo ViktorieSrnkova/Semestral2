@@ -15,6 +15,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import static app.Music.playMusic;
+import utils.GameInterface;
 
 /**
  *
@@ -28,10 +29,11 @@ public class GameUI {
      *
      * @param args
      */
+    static GameInterface comp = new Game();
+    static String path = "Data";
+
     public static void main(String[] args) {
-        String path = "Data";
-        String chosenGroup;
-        String groups;
+
         String player1;
         String player2;
         String opponent1;
@@ -47,120 +49,28 @@ public class GameUI {
         Pattern p;
         Matcher match;
         do {
-            Game comp = new Game();
+
             try {
                 while (true) {
                     try {
-                        System.out.println("List of players:");
-                        comp.loadPlayerInfo(new File(path + File.separator + "player_info"));
-                        System.out.println(comp.getPlayers());
-                        comp.loadDatesAndTimes(new File(path + File.separator + "DateTime"));
-                        comp.setMassMapWon();
-                        comp.setMassMatchupWon();
-                        comp.setMassDefaultTime();
+                        loadListOfPlayers();
+                        loadDatesAndTimes();
+                        massSet();
+                        comp.getPlayersSortedByName();
                         System.out.println("To display how players are separated into groups press Enter");
                         System.in.read();
-                        comp.getPlayersSortedByName();
-                        groups = comp.separate();
-                        System.out.println(groups);
-                        comp.saveGroups(new File(path + File.separator + "Group Stage"), groups);
+                        comp.saveGroups(new File(path + File.separator + "Group Stage"), getAllGroups());
                         System.out.println("Choose one group with which you will play the group stage matches.");
-                        do {
-                            chosenGroup = sc.next().toLowerCase();
-                        } while (!isAnExistingGroup(chosenGroup));
-                        bottomLimit = comp.chooseGroup(chosenGroup);
-                        poolOfPlayers = 6;
-                        while (poolOfPlayers > 0) {
-                            System.out.println(comp.selectGroup(bottomLimit, bottomLimit + 6));
-                            comp.loadMaps(new File(path + File.separator + "Maps"));
-                            System.out.println("Choose two players that will play against each other. Enter their names.");
-                            player1 = sc.next();
-                            player2 = sc.next();
-                            while (comp.isValidName(player1) == false || comp.isValidName(player2) == false) {
-                                if (comp.isValidName(player1) == false) {
-                                    System.out.println("Name " + player1 + " is incorrect. Try again");
-                                    player1 = sc.next();
-                                } else {
-                                    System.out.println("Name " + player2 + " is incorrect. Try again");
-                                    player2 = sc.next();
-                                }
-                            }
-                            while (comp.findByPlayerName(player1).getNumOfWonMaps() != Integer.MAX_VALUE || comp.findByPlayerName(player2).getNumOfWonMaps() != Integer.MAX_VALUE) {
-                                if (comp.findByPlayerName(player1).getNumOfWonMaps() != Integer.MAX_VALUE) {
-                                    System.out.println(" " + player1 + "  recently played choose a different player");
-                                    player1 = sc.next();
-                                } else {
-                                    System.out.println(" " + player2 + "  recently played choose a different player");
-                                    player2 = sc.next();
-                                }
-                            }
-                            System.out.println(comp.createMatch(player1, player2));
-                            poolOfPlayers = poolOfPlayers - 2;
-                            System.out.println("Chose a player for whom you wish to throw dice");
-                            do {
-                                opponent1 = sc.next();
-                                while (comp.isValidName(opponent1) == false) {
-                                    System.out.println("Name " + opponent1 + " is incorrect. Try again");
-                                    opponent1 = sc.next();
-                                }
-                                opponent2 = determineOpponent2(opponent1, player1, player2);
-                            } while (opponent2 == null);
-                            n = 0;
-                            m = 0;
-                            System.out.println("Score " + opponent1 + " 0 : 0 " + opponent2);
-                            while (m < 2 && n < 2) {
-                                System.out.println("***********************");
-                                System.out.println("Map: " + comp.chooseRandomMap());
-                                System.out.println("Enter a number between 1 to 6");
-                                p = Pattern.compile("(^[1-6]{1}$)");
-                                input = sc.next();
-                                match = p.matcher(input);
-                                while (!match.find()) {
-                                    System.out.println("Not in range! Try again");
-                                    input = sc.next();
-                                    match = p.matcher(input);
-                                }
-
-                                diced = Integer.parseInt(input);
-                                pcDiced = comp.pcThrowsDice();
-                                if (diced > pcDiced) {
-                                    n = n + 1;
-                                    comp.findByPlayerName(opponent1).setNumOfWonMaps(n);
-                                    comp.findByPlayerName(opponent2).setNumOfWonMaps(m);
-                                    System.out.println("Computer threw " + pcDiced);
-                                    System.out.println("Score " + opponent1 + "  " + comp.findByPlayerName(opponent1).getNumOfWonMaps() + " : " + comp.findByPlayerName(opponent2).getNumOfWonMaps() + "  " + opponent2);
-                                } else if (diced < pcDiced) {
-                                    m = m + 1;
-                                    comp.findByPlayerName(opponent2).setNumOfWonMaps(m);
-                                    comp.findByPlayerName(opponent1).setNumOfWonMaps(n);
-                                    System.out.println("Computer threw " + pcDiced);
-                                    System.out.println("Score " + opponent2 + "  " + comp.findByPlayerName(opponent2).getNumOfWonMaps() + " : " + comp.findByPlayerName(opponent1).getNumOfWonMaps() + "  " + opponent1);
-                                } else {
-                                    System.out.println("Computer threw " + pcDiced);
-                                    System.out.println("################## Tie Throw again ###################");
-                                }
-                            }
-                            if (comp.findByPlayerName(opponent2).getNumOfWonMaps() > comp.findByPlayerName(opponent1).getNumOfWonMaps()) {
-                                comp.findByPlayerName(opponent2).setNumOfWins(1);
-                                comp.findByPlayerName(opponent1).setNumOfWins(0);
-                            } else {
-                                comp.findByPlayerName(opponent1).setNumOfWins(1);
-                                comp.findByPlayerName(opponent2).setNumOfWins(0);
-                            }
-                        }
+                        bottomLimit = chooseOneGroup();
+                        groupStage(bottomLimit);
                         System.out.println("Players competing for 4.th advancing position  ");
-                        Collections.sort(comp.groupToSort(bottomLimit, bottomLimit + 6));
-                        System.out.println(comp.selectGroup(bottomLimit + 3, bottomLimit + 6));
-                        comp.determineFourth(bottomLimit + 3, bottomLimit + 6);
-                        System.out.println("To display dvancing players from this group press Enter");
+                        getFourth(bottomLimit);
+                        System.out.println("To display advancing players from this group press Enter");
                         System.in.read();
-                        comp.getGroupsSortedByMapsWon(bottomLimit, bottomLimit + 6);
-                        System.out.println(comp.listOfAdvancingFromGroup(bottomLimit, bottomLimit + 4));
+                        advancingFromGroup(bottomLimit);
                         System.out.println("To display all advancing players press Enter");
                         System.in.read();
-                        comp.createListOfAllAdvancing();
-                        comp.sortByDateAndTime();
-                        System.out.println(comp.listOfAllAdvancingPlayers());
+                        allAdvancingPlayers();
                         comp.saveGroupsResults(new File(path + File.separator + "GroupStageResults"));
                         System.out.println("To start climbing rounds press Enter");
                         System.in.read();
@@ -214,6 +124,165 @@ public class GameUI {
             System.out.println("Cannot choose from a different player than these two");
         }
         return opponent2;
+    }
+
+    private static void allAdvancingPlayers() {
+        comp.createListOfAllAdvancing();
+        comp.sortByDateAndTime();
+        System.out.println(comp.listOfAllAdvancingPlayers());
+    }
+
+    private static void advancingFromGroup(int bottomLimit) {
+        comp.getGroupsSortedByMapsWon(bottomLimit, bottomLimit + 6);
+        System.out.println(comp.listOfAdvancingFromGroup(bottomLimit, bottomLimit + 4));
+    }
+
+    private static String getAllGroups() {
+        String groups = comp.separate();
+        System.out.println(groups);
+        return groups;
+    }
+
+    private static int chooseOneGroup() {
+        String chosenGroup;
+        int bottomLimit;
+        do {
+            chosenGroup = sc.next().toLowerCase();
+        } while (!isAnExistingGroup(chosenGroup));
+        bottomLimit = comp.chooseGroup(chosenGroup);
+        return bottomLimit;
+    }
+
+    private static void getFourth(int bottomLimit) {
+        Collections.sort(comp.groupToSort(bottomLimit, bottomLimit + 6));
+        System.out.println(comp.selectGroup(bottomLimit + 3, bottomLimit + 6));
+        comp.determineFourth(bottomLimit + 3, bottomLimit + 6);
+    }
+
+    private static void loadListOfPlayers() throws IOException {
+        System.out.println("List of players:");
+        comp.loadPlayerInfo(new File(path + File.separator + "player_info"));
+        System.out.println(comp.getPlayers());
+    }
+
+    private static void loadDatesAndTimes() throws IOException {
+        comp.loadDatesAndTimes(new File(path + File.separator + "DateTime"));
+
+    }
+
+    private static void groupStage(int bottomLimit) throws IOException {
+        int poolOfPlayers = 6;
+        String opponent2;
+        String opponent1;
+        while (poolOfPlayers > 0) {
+            System.out.println(comp.selectGroup(bottomLimit, bottomLimit + 6));
+            comp.loadMaps(new File(path + File.separator + "Maps"));
+            System.out.println("Choose two players that will play against each other. Enter their names.");
+            String player1 = sc.next();
+            while (checkName(player1) == false) {
+                player1 = sc.next();
+            }
+            while (checkIfHasntPlayedAlready(player1) == false) {
+                player1 = sc.next();
+            }
+            String player2 = sc.next();
+            while (checkName(player2) == false) {
+                player2 = sc.next();
+            }
+            while (checkIfHasntPlayedAlready(player2) == false) {
+                player2 = sc.next();
+            }
+            System.out.println(comp.createMatch(player1, player2));
+            poolOfPlayers = poolOfPlayers - 2;
+            System.out.println("Chose a player for whom you wish to throw dice");
+            do {
+                opponent1 = sc.next();
+                while (checkName(opponent1) == false) {
+                    opponent1 = sc.next();
+                }
+                opponent2 = determineOpponent2(opponent1, player1, player2);
+            } while (opponent2 == null);
+            gameOfDice(opponent1, opponent2);
+            assignWonGames(opponent1, opponent2);
+
+        }
+    }
+
+    private static void gameOfDice(String opponent1, String opponent2) {
+        int n = 0;
+        int m = 0;
+        System.out.println("Score " + opponent1 + "  " + n + "  :  " + m + "  " + opponent2);
+        while (m < 2 && n < 2) {
+            System.out.println("***********************");
+            System.out.println("Map: " + comp.chooseRandomMap());
+            System.out.println("Enter a number between 1 to 6");
+            int diced = checkNumInputInRange();
+            int pcDiced = comp.pcThrowsDice();
+            if (diced > pcDiced) {
+                n = n + 1;
+                assignWonMaps(opponent2, opponent1, m, n, pcDiced);
+                System.out.println("Score " + opponent1 + "  " + comp.findByPlayerName(opponent1).getNumOfWonMaps() + " : " + comp.findByPlayerName(opponent2).getNumOfWonMaps() + "  " + opponent2);
+            } else if (diced < pcDiced) {
+                m = m + 1;
+                assignWonMaps(opponent2, opponent1, m, n, pcDiced);
+                System.out.println("Score " + opponent2 + "  " + comp.findByPlayerName(opponent2).getNumOfWonMaps() + " : " + comp.findByPlayerName(opponent1).getNumOfWonMaps() + "  " + opponent1);
+            } else {
+                System.out.println("Computer threw " + pcDiced);
+                System.out.println("################## Tie Throw again ###################");
+            }
+        }
+    }
+
+    private static void assignWonMaps(String opponent2, String opponent1, int m, int n, int pcDiced) {
+        comp.findByPlayerName(opponent2).setNumOfWonMaps(m);
+        comp.findByPlayerName(opponent1).setNumOfWonMaps(n);
+        System.out.println("Computer threw " + pcDiced);
+    }
+
+    private static void assignWonGames(String opponent2, String opponent1) {
+        if (comp.findByPlayerName(opponent2).getNumOfWonMaps() > comp.findByPlayerName(opponent1).getNumOfWonMaps()) {
+            comp.findByPlayerName(opponent2).setNumOfWins(1);
+            comp.findByPlayerName(opponent1).setNumOfWins(0);
+        } else {
+            comp.findByPlayerName(opponent1).setNumOfWins(1);
+            comp.findByPlayerName(opponent2).setNumOfWins(0);
+        }
+    }
+
+    private static int checkNumInputInRange() {
+        Pattern p = Pattern.compile("(^[1-6]{1}$)");
+        String input = sc.next();
+        int diced;
+        Matcher match = p.matcher(input);
+        while (!match.find()) {
+            System.out.println("Not in range! Try again");
+            input = sc.next();
+            match = p.matcher(input);
+        }
+        diced = Integer.parseInt(input);
+        return diced;
+    }
+
+    private static boolean checkName(String player1) {
+        while (comp.isValidName(player1) == false) {
+            System.out.println("Name " + player1 + " is incorrect. Try again");
+            return false;
+        }
+        return true;
+    }
+
+    private static boolean checkIfHasntPlayedAlready(String player1) {
+        while (comp.findByPlayerName(player1).getNumOfWonMaps() != Integer.MAX_VALUE) {
+            System.out.println(" " + player1 + "  recently played choose a different player");
+            return false;
+        }
+        return true;
+    }
+
+    private static void massSet() {
+        comp.setMassMapWon();
+        comp.setMassMatchupWon();
+        comp.setMassDefaultTime();
     }
 
     /**
