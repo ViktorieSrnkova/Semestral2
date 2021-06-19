@@ -34,58 +34,58 @@ Program načte data z textových souborů hráči(informace o hráčích odděle
 ### b) Popis struktury vstupních a výstupních souborů ###
 ### Vstupní soubory ###
 **Seznam hráčů** : textový soubor obsahující informace oddělené čárkou, obsahuje 6 různých informací na každém řádku, první dva řádky jsou pouze dodatečné informace(název a typy informací)
-1. číslo hráče 
-2. Národnost
-3. Herní rasa
-4. Herní jméno
-5. Tým
-6. Počet EPT bodů (body ze všech předchozích soutěží za daný rok)
+1. číslo hráče - int v rozmezí od 1 do Integer.MAX_VALUE(číslo hráče závisí na počtu EPT bodů, čísla hráčů se mohou opakovat) 
+2. Národnost - String, pokud více jemnná národnost oddělit mezerou)
+3. Herní rasa - String, v této hře výber Zerg,Protos,Terran
+4. Herní jméno - String, case sensitive
+5. Tým -String, case sensitive
+6. Počet EPT bodů (body ze všech předchozích soutěží za daný rok) - int v rozmezí od 1 do Integer.MAX_VALUE (reálně se pohybuje okolo 500 - 4000)
 
-**Mapy** : textový soubor obsahující seznam všech dostupných map ze hry pro tuto soutěž, jeden řádek jedna mapa řádek zakončen čárkou, první řádek pouze název souboru 
+**Mapy** : textový soubor obsahující seznam všech dostupných map ze hry pro tuto soutěž, jeden řádek jedna mapa , první řádek pouze název souboru 
 
-**Datumy a Časy** : textový soubor obsahující seznam 4 datumů kdy se soutěž koná a jejich startovní časy, data oddělena mezerou
+**Datumy a Časy** : textový soubor obsahující seznam 4 datumů kdy se soutěž koná a jejich startovní časy, data oddělena mezerou, datum ve formátu: MM/dd/yyyy, čas ve formátu HH:mm
 
 ### Výstupní soubory ###
 **Seznam skupin** : zformátováno do přehledného výpisu, informace odděleny mezerami, stále 6 informací, před každými 6ti řádky název skupiny, textový soubor
 
 **Všichni postupující** : zformátováno do přehledného výpisu, informace odděleny mezerami, pouze 16 řádků, 10 informací, textový soubor
-1. číslo hráče 
-2. Národnost
-3. Herní rasa
-4. Herní jméno
-5. Tým
-6. Počet EPT bodů (body ze všech předchozích soutěží za daný rok)
-7. Počet vyhraných map
-8. Počet vyhraných her
-9. Datum odehrání zápasů
-10. Čas kdy se začaly zápasy hrát 
+1. číslo hráče - int v rozmezí od 1 do Integer.MAX_VALUE(číslo hráče závisí na počtu EPT bodů, čísla hráčů se mohou opakovat) 
+2. Národnost - String, pokud více jemnná národnost oddělit mezerou)
+3. Herní rasa - String, v této hře výber Zerg,Protos,Terran
+4. Herní jméno - String, case sensitive
+5. Tým -String, case sensitive
+6. Počet EPT bodů (body ze všech předchozích soutěží za daný rok) - int v rozmezí od 1 do Integer.MAX_VALUE (reálně se pohybuje okolo 500 - 4000)
+7. Počet vyhraných map - int rozmezí 0-10
+8. Počet vyhraných her - int rozmezí 0-5
+9. Datum odehrání zápasů - formát yyyy-MM-dd 
+10. Čas započetí zápasu - formát HH:mm v rozmezí 15:00 - 24:00
 
 **Finální výsledky** : zformátováno do přehledného výpisu, informace odděleny mezerami, 24 řádků, 8 informací, textový soubor
-1. číslo hráče 
-2. Národnost
-3. Herní rasa
-4. Herní jméno
-5. Tým
-6. Počet EPT bodů (body ze všech předchozích soutěží za daný rok)
-7. Počet vyhraných map
-8. Počet vyhraných her
+1. číslo hráče - int v rozmezí od 1 do Integer.MAX_VALUE(číslo hráče závisí na počtu EPT bodů, čísla hráčů se mohou opakovat) 
+2. Národnost - String, pokud více jemnná národnost oddělit mezerou)
+3. Herní rasa - String, v této hře výber Zerg,Protos,Terran
+4. Herní jméno - String, case sensitive
+5. Tým -String, case sensitive
+6. Počet EPT bodů (body ze všech předchozích soutěží za daný rok) - int v rozmezí od 1 do Integer.MAX_VALUE (reálně se pohybuje okolo 500 - 4000)
+7. Počet vyhraných map - int rozmezí 0-10
+8. Počet vyhraných her- int rozmezí 0-5
 
 **Finální výsledky v bin** : binární soubor obsahující
-1. Počet výher
-2. Jméno hráče
-3. Rasa ze hry
-4. Národnost
-5. Tým
-6. EPT body
-7. Číslo hráče 
+1. Počet výher - **4byte**-int
+2. Jméno hráče -UTF
+3. Rasa ze hry -UTF
+4. Národnost -UTF
+5. Tým -UTF
+6. EPT body - **4byte**-int
+7. Číslo hráče - **4byte**-int
 
 **Pořadní tabulka** : zformátovaná ručně vytvořená tabulka obsahující informace
-1. Pořadí
-2. Vyhraná peněžní částka
-3. Jméno hráče
+1. Pořadí - String, bloky stupňů(1.,2.,3.- 4.,5.- 8.,9. - 16.,17.- 24.)
+2. Vyhraná peněžní částka - int 3000 - 65000
+3. Jméno hráče -String, case sensitive
 
 ### c) Class Diagram ###
-![UML](https://raw.githubusercontent.com/ViktorieSrnkova/Semestral2/master/UML_diagram.png)
+![UML](https://raw.githubusercontent.com/ViktorieSrnkova/Semestral2/master/UML.png)
 
 ### 3.Testování ###
 |Číslo testu |Typ testu         |Oblast                        |Vstupní hodnota             | Očekávaný výsledek                                   | skutečný výsledek                                    | prošel(ano/ne)|
